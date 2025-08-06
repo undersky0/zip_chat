@@ -1,3 +1,2 @@
 css: yarn build:css --watch
 js: yarn build --reload
-worker: bundle exec bin/jobs
