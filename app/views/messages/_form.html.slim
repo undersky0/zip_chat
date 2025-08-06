@@ -1,0 +1,7 @@
+= turbo_frame_tag "room_message_form" do
+  = form_with model: [chat_room, message], url: chat_room_messages_path(chat_room), local: false, id: "message-form" do |form|
+    .flex.space-x-3
+      .flex-1
+        = form.text_area :content, placeholder: "Type your message (Press Enter to send)", class: "form-control resize-none", rows: 1, required: true, data: { chat_target: "input", action: "input->chat#autoResize keydown->chat#submitOnEnter" }
+      .flex-shrink-0
+        = form.submit "Send", class: "btn btn-primary"

@@ -8,6 +8,7 @@ class User < ApplicationRecord
   include Notifiable
   include Searchable
   include Theme
+  include Chats
 
   has_one_attached :avatar
   has_person_name
