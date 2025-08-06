@@ -37,7 +37,9 @@ bin/setup
 
 ## Running
 
-To run your application, you'll use the `bin/dev` command:
+seed main user:
+``` rails db:seed```
+Creates user: admin@example.com pw: password
 
 ```bash
 ```
@@ -56,4 +58,6 @@ config/initializers/ruby_llm.rb
 
 config.openai_api_key = Rails.application.credentials.dig(:open_ai, :api_key)
 ```
-
+```
+http://localhost:3000/chat_interface is where the chat is
+```
