@@ -1,0 +1,13 @@
+= turbo_frame_tag dom_id(message) do
+  .flex.items-start.space-x-3
+    .flex-shrink-0
+
+      - if message.user
+        = image_tag avatar_url_for(message.user), class: "w-8 h-8 rounded-full"
+      - else
+        = image_tag "empty.svg", class: "w-8 h-8 rounded-full"
+    .flex-1.min-w-0
+      .flex.items-center.space-x-2
+        .font-medium.text-gray-900.dark:text-white = message.user&.name || "AI Assistant"
+        .text-xs.text-gray-500.dark:text-gray-400 = time_ago_in_words(message.created_at) + " ago"
+      .mt-1.text-gray-700.dark:text-gray-300 = message.content

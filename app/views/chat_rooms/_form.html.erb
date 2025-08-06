@@ -1,0 +1,13 @@
+<%= form_with(model: chat_room) do |form| %>
+  <%= render "error_messages", resource: form.object %>
+
+  <div class="form-group">
+    <%= form.label :name, "Room Name" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "e.g., General, Random, Team Chat" %>
+  </div>
+
+  <div class="flex gap-2">
+    <%= form.button "Create Room", class: "btn btn-primary" %>
+    <%= link_to "Cancel", chat_interface_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
