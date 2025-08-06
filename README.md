@@ -1,4 +1,4 @@
-# 🎉 Jumpstart Pro Rails
+
 
 Welcome! To get started, clone the repository and push it to a new repository.
 
@@ -47,33 +47,18 @@ Run `bin/setup` to install Ruby and JavaScript dependencies and setup your datab
 bin/setup
 ```
 
-## Running Jumpstart Pro Rails
+## Running
 
 To run your application, you'll use the `bin/dev` command:
 
 ```bash
-bin/dev
+1.To run js and css compilers:
+overmind start 
+2. Run server:
+rails s
 ```
 
-This starts up Overmind running the processes defined in `Procfile.dev`. We've configured this to run the Rails server, CSS bundling, and JS bundling out of the box. You can add background workers like Sidekiq, the Stripe CLI, etc to have them run at the same time.
+You will need to add ruby open ai key(didn't want to just add it here as this is a public repo):
+config/initializers/ruby_llm.rb 
+config.openai_api_key = Rails.application.credentials.dig(:open_ai, :api_key)
 
-#### Running on Windows
-
-See the [Installation docs](https://jumpstartrails.com/docs/installation#windows)
-
-#### Running with Docker or Docker Compose
-
-See the [Installation docs](https://jumpstartrails.com/docs/installation#docker)
-
-## Merging Updates
-
-To merge changes from Jumpstart Pro, you will merge from the `jumpstart-pro` remote.
-
-```bash
-git fetch jumpstart-pro
-git merge jumpstart-pro/main
-```
-
-## Contributing
-
-If you have an improvement you'd like to share, create a fork of the repository and send us a pull request.
