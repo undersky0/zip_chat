@@ -40,13 +40,20 @@ bin/setup
 To run your application, you'll use the `bin/dev` command:
 
 ```bash
+```
 1.To run js and css compilers:
-overmind start 
+```
+overmind start
+```
 2. Run server:
+```
 rails s
 ```
 
 You will need to add ruby open ai key(didn't want to just add it here as this is a public repo):
-config/initializers/ruby_llm.rb 
+```
+config/initializers/ruby_llm.rb
+
 config.openai_api_key = Rails.application.credentials.dig(:open_ai, :api_key)
+```
 
