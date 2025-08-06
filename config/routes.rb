@@ -1,5 +1,12 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
+
+  resources :chat_interface, only: [:index, :show]
+
+  resources :chat_rooms do
+    resources :messages, only: [:create]
+  end
+
   draw :accounts
   draw :api
   draw :billing
