@@ -59,5 +59,5 @@ config/initializers/ruby_llm.rb
 config.openai_api_key = Rails.application.credentials.dig(:open_ai, :api_key)
 ```
 ```
-http://localhost:3000/chat_interface is where the chat is
+http://localhost:3000/chat is where the chat is
 ```
