@@ -1,5 +1,4 @@
 class ChatRoom < ApplicationRecord
-  # broadcasts_refreshes - temporarily disabled to avoid conflicts
-  has_many :messages, dependent: :destroy
+  acts_as_chat message_class: 'Message', tool_call_class: 'ToolCall'
   belongs_to :user
 end

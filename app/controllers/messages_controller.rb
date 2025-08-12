@@ -5,24 +5,7 @@ class MessagesController < ApplicationController
 
   # POST /chat_rooms/:chat_room_id/messages
   def create
-    @message = @chat_room.messages.create(message_params)
-
-    if @message.persisted?
-      #TODO: moved into a service object for better seperation and testing!
-      chat = RubyLLM.chat
-      chat.with_instructions("You are a helpful online shop assistant who provides product information and helps customers to make a purchase")
-
-      chat.with_tools(AiTools::Products::GetAll.new, AiTools::Products::Select.new(chat_room_id: @chat_room.id), AiTools::Products::CheckoutCheck.new)
-      #TODO: ADD ERROR HANDLING
-      response = chat.ask @message.content
-
-      @ai_message = @chat_room.messages.create(content: response.content)
-    end
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to @chat_room }
-    end
+    ChatResponse.call(message: message_params[:content], chat_room: @chat_room)
   end
 
   private

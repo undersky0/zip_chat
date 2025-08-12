@@ -11,6 +11,9 @@ class User < ApplicationRecord
   include Chats
 
   has_one_attached :avatar
+  has_one :address, dependent: :destroy
+  delegate :postcode, :postcode=, to: :address, allow_nil: true
+
   has_person_name
 
   validates :avatar, resizable_image: true

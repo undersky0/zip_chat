@@ -5,13 +5,14 @@ module Guest
   def current_or_guest_user
     if current_user
       if session[:guest_user_id] && session[:guest_user_id] != current_user.id
-        logging_in
+        # logging_in
         # reload guest_user to prevent caching problems before destruction
         guest_user(with_retry = false).try(:reload).try(:destroy)
         session[:guest_user_id] = nil
       end
       current_user
     else
+      Current.user = guest_user
       guest_user
     end
   end

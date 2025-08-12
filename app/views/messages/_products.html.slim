@@ -1,0 +1,24 @@
+
+div data-controller="new-message-event-dispatcher"
+- products = message_products(message)
+- if products.present?
+  .flex-shrink-0.my-auto.mr-2
+    = image_tag "robot.svg", class: "w-8 h-8 rounded-full"
+  .grid.grid-cols-3.gap-4
+    - products.each do |product|
+      .bg-white.dark:bg-gray-800.border.border-gray-200.dark:border-gray-700.p-4.rounded-lg.shadow-sm
+        .flex.items-center.space-x-4
+          .flex-shrink-0
+            = image_tag product["thumbnail"], class: "w-16 h-16 rounded"
+          .flex-1
+            .font-medium.text-gray-900.dark:text-white = product["title"]
+            .text-sm.text-gray-500.dark:text-gray-400 = product["description"].truncate(30)
+            .mt-2.text-lg.font-semibold.text-gray-900.dark:text-white = "$#{product['price']}"
+- else
+  .flex-shrink-0.my-auto.mr-2
+      = image_tag "robot.svg", class: "w-8 h-8 rounded-full"
+  .flex-1.min-w-0
+    .flex.items-center.space-x-2
+      .font-medium.text-gray-900.dark:text-white "AI Assistant"
+      .text-xs.text-gray-500.dark:text-gray-400 = time_ago_in_words(message.created_at) + " ago"
+    .mt-1.text-gray-700.dark:text-gray-300 = "no products found, please try different search query"

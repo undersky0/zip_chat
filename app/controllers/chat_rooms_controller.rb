@@ -11,7 +11,7 @@ class ChatRoomsController < ApplicationController
 
   # GET /chat_rooms/1 or /chat_rooms/1.json
   def show
-    @messages = @chat_room.messages.includes(:user).order(:created_at)
+    @messages = @chat_room.messages.without_system.includes(:user).order(:created_at)
   end
 
   # GET /chat_rooms/new

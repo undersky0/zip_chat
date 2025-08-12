@@ -1,11 +1,18 @@
-.flex.items-start.space-y-3.mb-4 id=dom_id(message)
-  .flex-shrink-0
-    - if message.user
-      = image_tag avatar_url_for(message.user), class: "w-8 h-8 rounded-full"
-    - else
-      = image_tag "empty.svg", class: "w-8 h-8 rounded-full"
-  .flex-1.min-w-0
-    .flex.items-center.space-x-2
-      .font-medium.text-gray-900.dark:text-white = message.user&.name || "AI Assistant"
-      .text-xs.text-gray-500.dark:text-gray-400 = time_ago_in_words(message.created_at) + " ago"
-    .mt-1.text-gray-700.dark:text-gray-300 = message.content
+
+
+  - if product_message?(message)
+    .flex
+      = render "messages/products", message: message
+  - elsif message.content
+    .flex.items-start.space-y-3.mb-4 id=dom_id(message)
+      div data-controller="new-message-event-dispatcher"
+      .flex-shrink-0.my-auto.mr-2
+        - if message.role == "user"
+          = image_tag avatar_url_for(message.chat_room.user), class: "w-8 h-8 rounded-full"
+        - else
+          = image_tag "robot.svg", class: "w-8 h-8 rounded-full"
+      .flex-1.min-w-0
+        .flex.items-center.space-x-2
+          .font-medium.text-gray-900.dark:text-white = message.role == "user" ? message.chat_room.user&.name : "AI Assistant"
+          .text-xs.text-gray-500.dark:text-gray-400 = time_ago_in_words(message.created_at) + " ago"
+        .mt-1.text-gray-700.dark:text-gray-300 = message.content

@@ -8,9 +8,9 @@
   .flex-1.overflow-y-auto
     - @chat_rooms.each do |room|
       = link_to chat_room_path(room),\
-        class: "block p-3 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-600 #{'bg-blue-50 dark:bg-blue-900' if room == @current_chat_room}",
-        data: {turbo_frame: "chat_room"} do
-        .font-medium.text-gray-900.dark:text-white = room.name
+        class: "block p-3 hover:bg-gray-100 border-b border-gray-100 visited:bg-blue-50",
+        data: { turbo_frame: "chat_room" } do
+        .font-medium.text-gray-900.dark:text-white.active:text-purple-600.dark:active:text-purple-400 = room.name
         .text-sm.text-gray-500.dark:text-gray-400
           - if room.messages.any?
             = "#{room.messages.count} messages"
