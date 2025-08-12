@@ -26,21 +26,11 @@ class ChatRoomsController < ApplicationController
       user: current_or_guest_user,
       name: "#{DateTime.now.strftime("%Y-%m-%d %H:%M:%S")} Chat"
     )
-
-    respond_to do |format|
-      if @chat_room.save!
-        @chat_room.messages.create(
-          content: "Welcome to the shoppy! I'm here to help you find the products you want. You can ask me about any product, and I'll do my best to provide you with the information you need. If you're ready to make a purchase, just let me know, and I'll guide you through the checkout process.",
-          role: "assistant"
-        )
-
-        format.html { redirect_to chat_path, notice: "Chat room was successfully created." }
-        format.json { render :show, status: :created, location: @chat_room }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @chat_room.errors, status: :unprocessable_entity }
-      end
-    end
+    @chat_room.save
+    @chat_room.messages.create(
+      content: "Welcome to the shoppy! I'm here to help you find the products you want. You can ask me about any product, and I'll do my best to provide you with the information you need. If you're ready to make a purchase, just let me know, and I'll guide you through the checkout process.",
+      role: "assistant"
+    )
   end
 
   # PATCH/PUT /chat_rooms/1 or /chat_rooms/1.json

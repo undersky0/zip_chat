@@ -3,17 +3,10 @@
   .p-4.border-b.border-gray-200.dark:border-gray-700
     h2.text-lg.font-semibold.text-gray-900.dark:text-white Chat Rooms
     = button_to "New Room", chat_rooms_path, class: "mt-2 btn btn-primary btn-sm",
-      data: { turbo_frame: "_top" }, method: :post
+      data: { turbo: true }, method: :post
 
   .flex-1.overflow-y-auto
-    - @chat_rooms.each do |room|
-      = link_to chat_room_path(room),\
-        class: "block p-3 hover:bg-gray-100 border-b border-gray-100 visited:bg-blue-50",
-        data: { turbo_frame: "chat_room" } do
-        .font-medium.text-gray-900.dark:text-white.active:text-purple-600.dark:active:text-purple-400 = room.name
-        .text-sm.text-gray-500.dark:text-gray-400
-          - if room.messages.any?
-            = "#{room.messages.count} messages"
-          - else
-            = "No messages yet"
+    = turbo_frame_tag "chat_rooms_list" do
+      - @chat_rooms.each do |chat_room|
+        = render 'chat/chat_list_item', chat_room: chat_room
 
