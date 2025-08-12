@@ -1,6 +1,6 @@
 class ChatRoomsController < ApplicationController
   before_action :set_chat_room, only: [:show, :edit, :update, :destroy]
-
+  include Guest
   # GET /chat_rooms
   def index
     @pagy, @chat_rooms = pagy(ChatRoom.sort_by_params(params[:sort], sort_direction))
@@ -28,14 +28,14 @@ class ChatRoomsController < ApplicationController
 
   # POST /chat_rooms or /chat_rooms.json
   def create
-    @chat_room = ChatRoom.new(chat_room_params)
+    @chat_room = ChatRoom.new(user: current_or_guest_user, name: "#{DateTime.now.strftime("%Y-%m-%d %H:%M:%S")} Chat")
 
     # Uncomment to authorize with Pundit
     # authorize @chat_room
 
     respond_to do |format|
       if @chat_room.save
-        format.html { redirect_to chat_interface_path(@chat_room), notice: "Chat room was successfully created." }
+        format.html { redirect_to chat_path, notice: "Chat room was successfully created." }
         format.json { render :show, status: :created, location: @chat_room }
       else
         format.html { render :new, status: :unprocessable_entity }
