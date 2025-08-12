@@ -1,6 +1,7 @@
 class ChatController < ApplicationController
-  layout "minimal"
   include Guest
+  layout "minimal"
+
 
   def show
     @chat_rooms = user.chat_rooms

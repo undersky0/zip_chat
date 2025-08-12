@@ -20,6 +20,7 @@ class Tools::Products::CheckoutCheck < RubyLLM::Tool
   end
 
   attr_reader :user
+
   def initialize(user: )
     @user = user
   end
