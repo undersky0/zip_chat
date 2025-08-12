@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_06_091426) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_12_122936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -96,6 +96,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_091426) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "street"
+    t.string "city"
+    t.string "postcode"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
   create_table "announcements", force: :cascade do |t|
     t.string "kind"
     t.string "title"
@@ -123,6 +133,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_091426) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "model_id"
     t.index ["user_id"], name: "index_chat_rooms_on_user_id"
   end
 
@@ -154,7 +165,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_091426) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role"
+    t.string "model_id"
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.bigint "tool_call_id"
     t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
+    t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
@@ -327,6 +344,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_091426) do
     t.string "contact_url"
   end
 
+  create_table "tool_calls", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.string "tool_call_id", null: false
+    t.string "name", null: false
+    t.jsonb "arguments", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_tool_calls_on_message_id"
+    t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -361,6 +389,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_091426) do
     t.text "otp_backup_codes"
     t.jsonb "preferences"
     t.virtual "name", type: :string, as: "(((first_name)::text || ' '::text) || (COALESCE(last_name, ''::character varying))::text)", stored: true
+    t.string "phone"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"
@@ -375,10 +404,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_06_091426) do
   add_foreign_key "account_users", "users"
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "users"
   add_foreign_key "api_tokens", "users"
   add_foreign_key "chat_rooms", "users"
   add_foreign_key "messages", "chat_rooms"
+  add_foreign_key "messages", "tool_calls"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
+  add_foreign_key "tool_calls", "messages"
 end

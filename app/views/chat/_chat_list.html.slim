@@ -1,0 +1,12 @@
+/ Chat Room List
+.h-full.bg-gray-50.dark:bg-gray-800.border-r.border-gray-200.dark:border-gray-700.flex.flex-col
+  .p-4.border-b.border-gray-200.dark:border-gray-700
+    h2.text-lg.font-semibold.text-gray-900.dark:text-white Chat Rooms
+    = button_to "New Room", chat_rooms_path, class: "mt-2 btn btn-primary btn-sm",
+      data: { turbo: true }, method: :post
+
+  .flex-1.overflow-y-auto
+    = turbo_frame_tag "chat_rooms_list" do
+      - @chat_rooms.each do |chat_room|
+        = render 'chat/chat_list_item', chat_room: chat_room
+

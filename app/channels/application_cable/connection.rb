@@ -9,19 +9,27 @@ module ApplicationCable
 
     def connect
       self.current_user = find_verified_user
-      set_request_details
+      set_request_details if current_user
       self.current_account = Current.account
 
-      logger.add_tags "ActionCable", "User #{current_user.id}", "Account #{current_account.id}"
+      if current_user && current_account
+        logger.add_tags "ActionCable", "User #{current_user.id}", "Account #{current_account.id}"
+      elsif current_user
+        logger.add_tags "ActionCable", "User #{current_user.id}", "No Account"
+      else
+        logger.add_tags "ActionCable", "Guest User"
+      end
     end
 
     protected
 
     def find_verified_user
-      if (current_user = env["warden"].user(:user))
-        current_user
+      if (user = env["warden"]&.user(:user))
+        user
       else
-        reject_unauthorized_connection
+        # Allow guest users - don't reject the connection
+        # You might want to create a guest user here or return nil
+        nil
       end
     end
 

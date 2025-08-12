@@ -1,0 +1,3 @@
+
+= turbo_stream.append "chat_rooms_list", partial: "chat/chat_list_item", locals: { chat_room: @chat_room }
+= turbo_stream.update "chat_room", partial: "chat_rooms/chat_room", locals: { chat_room: @chat_room, messages: @chat_room.messages }
